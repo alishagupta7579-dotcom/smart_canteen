@@ -1,0 +1,37 @@
+
+        st.header("ML Prediction")
+
+        from sklearn.ensemble import RandomForestRegressor
+
+        ml_df = df.copy()
+        ml_df["Holiday_num"] = (
+            ml_df["Holiday"].astype(str).str.strip().str.lower() == "yes"
+        ).astype(int)
+        ml_df = pd.get_dummies(ml_df, columns=["Day", "Food"])
+
+        feature_cols = [c for c in ml_df.columns
+                        if c.startswith(("Day_", "Food_")) or c == "Holiday_num"]
+
+        if len(df) >= 30:
+            model = RandomForestRegressor(n_estimators=100, random_state=42)
+            model.fit(ml_df[feature_cols], ml_df["Sold"])
+
+            pred_day = st.selectbox(
+                "Select Day",
+                ["Monday", "Tuesday", "Wednesday", "Thursday",
+                 "Friday", "Saturday", "Sunday"]
+            )
+            pred_holiday = st.radio("Holiday?", ["No", "Yes"], horizontal=True)
+
+            row = {c: 0 for c in feature_cols}
+            row["Holiday_num"] = 1 if pred_holiday == "Yes" else 0
+            if f"Day_{pred_day}" in row:
+                row[f"Day_{pred_day}"] = 1
+            if f"Food_{food}" in row:
+                row[f"Food_{food}"] = 1
+
+            predicted = int(model.predict(pd.DataFrame([row]))[0])
+            st.metric("ML Predicted Demand", f"{predicted} portions")
+            st.success(f"Prepare about {int(predicted * 1.05)} portions of {food}")
+        else:
+            st.warning("Need at least 30 rows of data for ML prediction.")
