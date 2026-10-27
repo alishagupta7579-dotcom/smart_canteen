@@ -64,6 +64,7 @@ try:
         "This is a simple estimate based on average past sales, "
         "not a trained machine-learning prediction."
     )
+   ( st.info(...))
 
     # Holiday records
     st.header("🎉 Holiday Records")
