@@ -64,9 +64,22 @@ try:
         "This is a simple estimate based on average past sales, "
         "not a trained machine-learning prediction."
     )
-   ( st.info(...))
+    suggested=int(average_sales*1.1)
+    avg_prepared=selected["prepared"].mean()
+    extra=int(avg_prepared-suggested)
+    st.subheader("waste Reduction Tip")
+    st.success(f"prepare{suggested} portions of {food} tomorrow" 
+               f"(average sales + 10/buffer)"
+              )
+    if extra>0:
+        st.warning(
+            f"you currently prepare about {int(avg_prepared)} portions on average."
+            f"making roughly {extra} fewer each day will reduce waste."
+        )
+        st.write("holiday vs normal days (average sold):")
+        st.dataframe(selected.groupby("holiday")["sold"].mean())
+            
 
-    # Holiday records
     st.header("🎉 Holiday Records")
 
     holiday_data = df[
@@ -75,7 +88,7 @@ try:
 
     st.dataframe(holiday_data, use_container_width=True)
 
-    # Download processed data
+    
     csv_file = df.to_csv(index=False).encode("utf-8")
 
     st.download_button(
