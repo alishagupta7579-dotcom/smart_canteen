@@ -65,19 +65,19 @@ try:
         "not a trained machine-learning prediction."
     )
     suggested=int(average_sales*1.1)
-    avg_prepared=selected["prepared"].mean()
+    avg_prepared=selected["Prepared"].mean()
     extra=int(avg_prepared-suggested)
-    st.subheader("waste Reduction Tip")
-    st.success(f"prepare{suggested} portions of {food} tomorrow" 
+    st.subheader("Waste Reduction Tip")
+    st.success(f"Prepare{suggested} portions of {food} tomorrow" 
                f"(average sales + 10/buffer)"
               )
     if extra>0:
         st.warning(
-            f"you currently prepare about {int(avg_prepared)} portions on average."
-            f"making roughly {extra} fewer each day will reduce waste."
+            f"You currently prepare about {int(avg_prepared)} portions on average."
+            f"Making roughly {extra} fewer each day will reduce waste."
         )
-        st.write("holiday vs normal days (average sold):")
-        st.dataframe(selected.groupby("holiday")["sold"].mean())
+        st.write("Holiday vs normal days (average sold):")
+        st.dataframe(selected.groupby("Holiday")["Sold"].mean())
             
 
     st.header("🎉 Holiday Records")
