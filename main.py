@@ -5,11 +5,10 @@ import pandas as pd
 # Website settings
 st.set_page_config(
     page_title="Smart Canteen",
-    page_icon="🍽️",
     layout="wide"
 )
 
-st.title("🍽️ Smart Canteen")
+st.title("Smart Canteen")
 st.subheader("Food Demand and Waste Predictor")
 st.write("Analyze food sales and reduce food waste.")
 
@@ -21,7 +20,7 @@ try:
     df["Waste"] = df["Prepared"] - df["Sold"]
 
     # Dashboard
-    st.header("📊 Dashboard")
+    st.header("Dashboard")
 
     col1, col2, col3 = st.columns(3)
 
@@ -30,11 +29,11 @@ try:
     col3.metric("Food Waste", int(df["Waste"].sum()))
 
     # Show complete data
-    st.header("📁 Canteen Data")
+    st.header("Canteen Data")
     st.dataframe(df, use_container_width=True)
 
     # Food selection
-    st.header("🔍 Food Analysis")
+    st.header("Food Analysis")
 
     food_list = sorted(df["Food"].dropna().unique())
     food = st.selectbox("Select Food Item", food_list)
@@ -47,11 +46,11 @@ try:
     st.write("Total Waste:", int(selected["Waste"].sum()))
 
     # Waste chart
-    st.header("♻️ Waste by Food Item")
+    st.header("Waste by Food Item")
     st.bar_chart(df.groupby("Food")["Waste"].sum())
 
     # Simple demand estimate
-    st.header("🤖 Demand Estimate")
+    st.header("Demand Estimate")
 
     average_sales = selected["Sold"].mean()
 
@@ -80,7 +79,7 @@ try:
         st.dataframe(selected.groupby("Holiday")["Sold"].mean())
             
 
-    st.header("🎉 Holiday Records")
+    st.header("Holiday Records")
 
     holiday_data = df[
         df["Holiday"].astype(str).str.strip().str.lower() == "yes"
