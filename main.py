@@ -2,7 +2,6 @@
 import streamlit as st
 import pandas as pd
 
-# Website settings
 st.set_page_config(
     page_title="Smart Canteen",
     layout="wide"
@@ -12,14 +11,13 @@ st.title("Smart Canteen")
 st.subheader("Food Demand and Waste Predictor")
 st.write("Analyze food sales and reduce food waste.")
 
-# Load CSV dataset
 try:
     df = pd.read_csv("canteen_data.csv")
 
-    # Calculate waste
+
     df["Waste"] = df["Prepared"] - df["Sold"]
 
-    # Dashboard
+
     st.header("Dashboard")
 
     col1, col2, col3 = st.columns(3)
@@ -28,11 +26,11 @@ try:
     col2.metric("Food Sold", int(df["Sold"].sum()))
     col3.metric("Food Waste", int(df["Waste"].sum()))
 
-    # Show complete data
+    
     st.header("Canteen Data")
     st.dataframe(df, use_container_width=True)
 
-    # Food selection
+
     st.header("Food Analysis")
 
     food_list = sorted(df["Food"].dropna().unique())
@@ -45,11 +43,10 @@ try:
     st.write("Total Sold:", int(selected["Sold"].sum()))
     st.write("Total Waste:", int(selected["Waste"].sum()))
 
-    # Waste chart
+    
     st.header("Waste by Food Item")
     st.bar_chart(df.groupby("Food")["Waste"].sum())
 
-    # Simple demand estimate
     st.header("Demand Estimate")
 
     average_sales = selected["Sold"].mean()
